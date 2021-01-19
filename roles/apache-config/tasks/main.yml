@@ -1,0 +1,18 @@
+---
+- name: "copying the httpd.conf template to target machine"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: mwhttp
+    group: mwhttp
+    mode: '0755'
+  loop:
+    - { src: "httpd.conf.j2", dest: "{{ httpd_config_directory }}/httpd.conf" }
+    - { src: "default_vhost.conf.j2", dest: "{{ httpd_config_directory }}/vhost.conf" }
+    - { src: "ssl.conf.j2", dest: "{{ httpd_config_directory }}/ssl.conf" }
+  
+      #- name: "start the server"
+      #command: "httpd -k {{ _httpd_config_directory }}/httpd.conf"
+      #chdir: "/apps/apache/bin"
+     
+

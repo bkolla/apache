@@ -1,0 +1,11 @@
+{{ ansible_managed | comment }}
+
+Listen {{ httpd_port }}
+
+<IfDefine SSL>
+  <IfDefine !NOSSL>
+  <IfModule mod_ssl.c>
+    Listen {{ httpd_ssl_port }}
+  </IfModule>
+  </IfDefine>
+</IfDefine>

@@ -1,0 +1,41 @@
+---
+- name: Configure Apache HTTP
+  hosts: localhost
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: apache-config
+      httpd_port: 8080
+      httpd_ssl_port: 8443
+      httpd_locations:
+        - name: location1
+          location: /location1
+          backend_url: "http://localhost:8080/app"
+      httpd_vhosts:
+        - name: docroot
+          servername: server1.example.com
+          documentroot: /apps/apache/htdocs
+        - name: backend_http
+          servername: server2.example.com
+          backend_url: "http://www.example.com/"
+        - name: remote
+          servername: server3.example.com
+          remote: "http://localhost:3128/"
+        - name: backend_https
+          servername: server4.example.com
+          backend_url: "https://www.example.com/"
+        - name: piratebay
+          servername: piratebay.nl
+          backend_url: "https://thepirate-bay.org/"
+          proxy_preserve_host: Off
+          proxy_requests: Off
+          setenv:
+            - name: force-proxy-request-1.0
+              value: 1
+            - name: proxy-nokeepalive
+              value: 1
+            - name: proxy-initial-not-pooled
+            - name: proxy-sendchunks
+              value: 1
+
